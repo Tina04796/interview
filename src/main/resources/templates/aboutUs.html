@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>關於我們</title>
+</head>
+<body>
+<div th:replace="~{layout/navbar}"></div>
+
+<div class="container">
+<h1>關於我們</h1>
+<h3 th:text="${welcomeText}"></h3>
+<h3>[[${welcomeText}]]</h3>
+<p>
+歡迎來到我們的電腦補習班！我們致力於提供高質量的電腦課程，
+幫助學生掌握現代科技的核心技能。無論您是初學者還是希望深造的專業人士，
+我們都有適合您的課程。
+</p>
+
+<a th:href="@{/}">回首頁</a>
+
+</div>
+</body>
+</html>

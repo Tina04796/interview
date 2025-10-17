@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>新增商店</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div th:replace="~{layout/navbar}"></div>
+    <div class="container">
+        <h1>新增商店</h1>
+        <p>請填入您的資訊</p>
+        <form th:action="@{/stores/addPost}" method="post" class="form">
+            <label>名稱:</label>
+            <input name="name" type="text" required class="form-input"/>
+            
+            <label>類型:</label>
+            <input name="type" type="text" required class="form-input"/>
+            
+            <label>電話:</label>
+            <input name="phone" type="text" min="8" max="10" class="form-input"/>
+            
+            <label>地址:</label>
+            <input name="address" type="text" class="form-input"/>
+            
+            <label>網址:</label>
+            <input name="url" type="text" class="form-input"/>
+            
+            <button type="submit" class="form-button">送出</button>
+        </form>
+        <div class="message" th:text="${okMsg}"></div>
+    </div>
+</body>
+</html>

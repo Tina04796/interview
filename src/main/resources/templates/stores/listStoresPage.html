@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>查看商店</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div th:replace="~{layout/navbar}"></div>
+    <div class="container">
+        <h1>查看商店</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名稱</th>
+                    <th>類型</th>
+                    <th>電話</th>
+                    <th>地址</th>
+                    <th>網址</th>
+                    <th>建立者</th>
+                    <th>建立時間</th>
+                    <th>編輯者</th>
+                    <th>編輯時間</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="oneStores : ${allStores}">
+                <tr>
+                    <td th:text="${oneStores.id}"></td>
+                    <td th:text="${oneStores.name}"></td>
+                    <td th:text="${oneStores.type}"></td>
+                    <td th:text="${oneStores.phone}"></td>
+                    <td th:text="${oneStores.address}"></td>
+                    <td th:text="${oneStores.url}"></td>
+                    <td th:text="${oneStores.cac}"></td>
+                    <td th:text="${oneStores.createtime}"></td>
+                    <td th:text="${oneStores.eac}"></td>
+                    <td th:text="${oneStores.edittime}"></td>
+                    <td><a th:href="@{/stores/update(id=${oneStores.id})}" class="edit-link">編輯</a></td>
+                    <td>
+                        <form th:action="@{/stores/delete}" th:method="delete">
+                            <input name="id" th:value="${oneStores.id}" type="hidden" />
+                            <button type="submit" class="delete-button">刪除</button>
+                        </form>
+                    </td>
+                </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>編輯商店</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div th:replace="~{layout/navbar}"></div>
+    <div class="container">
+        <h1>編輯商店</h1>
+        <form th:object="${stores}" method="post" th:action="@{/stores/updateput}" class="form">
+            <input name="_method" value="put" type="hidden"/>
+            <input th:field="*{id}" required type="hidden"/>
+            
+            <label>名稱:</label>
+            <input th:field="*{name}" required class="form-input"/>
+            
+            <label>類型:</label>
+            <input th:field="*{type}" required class="form-input"/>
+            
+            <label>電話:</label>
+            <input th:field="*{phone}" required class="form-input"/>
+            
+            <label>地址:</label>
+            <input th:field="*{address}" required class="form-input"/>
+            
+            <label>網址:</label>
+            <input th:field="*{url}" required class="form-input"/>
+
+            <label>創建者:</label>
+            <input th:field="*{cac}" required type="hidden" class="form-input"/>
+            
+            <label>創建時間:</label>
+            <input th:field="*{createtime}" required type="hidden" class="form-input"/>
+            
+            <button type="submit" class="form-button">送出</button>
+        </form>
+    </div>
+</body>
+</html>
