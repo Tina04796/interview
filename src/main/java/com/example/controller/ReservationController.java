@@ -34,6 +34,7 @@ public class ReservationController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReservationResponse> getReservationById(@PathVariable Long id) {
 		ReservationResponse response = reservationService.getReservationById(id);
 		return ResponseEntity.ok(response);

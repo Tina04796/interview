@@ -84,10 +84,17 @@
 - 預約
 
 	查詢某房間在某天的可用時段: (GET) /reservations/slots/{roomId}
-	(需帶 date)
+	(需帶 date ex: http://localhost:8081/interview/api/reservations/slots/1?date=2026-03-15)
 
 	建立預約: (POST) /reservations
-	(Body 需含 roomId 和時段列表)
+	(Body 需含 roomId 和時段列表 ex: 	{
+					"roomId": 1,
+					"selectedSlotTimes": [
+					"2026-03-15T10:00:00",
+					"2026-03-15T10:30:00",
+					"2026-03-15T11:00:00"
+ 					 ]
+					})
 
 	查詢自己的預約: (GET) /reservations/user/{userId}
 	(限自己或 ADMIN)
@@ -96,5 +103,5 @@
 	(服務層會檢查是不是自己的預約)
 
 	查詢空間在日期範圍內的預約: (GET) /reservations/room/{roomId}
-	(需帶 startDate 和 endDate)
+	(需帶 startDate 和 endDate ex: http://localhost:8081/interview/api/reservations/room/1?startDate=2026-03-15&endDate=2026-03-15)
 

@@ -1,5 +1,7 @@
 package com.example.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,9 +43,9 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOriginPattern("http://localhost:8081");
-		configuration.addAllowedMethod("*");
-		configuration.addAllowedHeader("*");
+		configuration.setAllowedOriginPatterns(List.of("http://localhost:8081"));
+		configuration.setAllowedMethods(List.of("*"));
+		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

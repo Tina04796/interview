@@ -7,7 +7,7 @@ import com.example.exception.ResourceConflictException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.model.Reservation;
 import com.example.model.ReservationSlot;
-import com.example.model.ReservationStatus; // 導入 ReservationStatus
+import com.example.model.ReservationStatus;
 import com.example.model.Room;
 import com.example.model.User;
 import com.example.repository.ReservationRepository;
@@ -39,10 +39,10 @@ public class ReservationServiceImpl implements ReservationService {
 	private final UserRepository userRepository;
 	private final RoomRepository roomRepository;
 
-	private static final long SLOT_DURATION_MINUTES = 60;
+	private static final long SLOT_DURATION_MINUTES = 30;
 
-	private static final LocalTime START_OF_DAY = LocalTime.of(9, 0);
-	private static final LocalTime END_OF_DAY = LocalTime.of(17, 0);
+	private static final LocalTime START_OF_DAY = LocalTime.of(8, 0);
+	private static final LocalTime END_OF_DAY = LocalTime.of(20, 30);
 
 	@Override
 	@Transactional
@@ -163,7 +163,8 @@ public class ReservationServiceImpl implements ReservationService {
 			List<LocalDateTime> sortedSlots) {
 		LocalDateTime startTime = sortedSlots.get(0);
 		LocalDateTime endTime = sortedSlots.get(sortedSlots.size() - 1).plusMinutes(SLOT_DURATION_MINUTES);
-		return Reservation.builder().user(user).room(room).startTime(startTime).endTime(endTime).build();
+		return Reservation.builder().user(user).room(room).startTime(startTime).endTime(endTime)
+				.status(ReservationStatus.CONFIRMED).build();
 	}
 
 	private ReservationResponse convertToResponse(Reservation reservation, String username, String roomName) {
