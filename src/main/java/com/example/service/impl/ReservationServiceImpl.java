@@ -174,4 +174,11 @@ public class ReservationServiceImpl implements ReservationService {
 				.createdAt(reservation.getCreatedAt()).build();
 	}
 
+	@Override
+	public boolean isOwner(Long reservationId, Long userId) {
+		return reservationRepository.findById(reservationId).map(reservation -> {
+			return reservation.getUser().getId().equals(userId);
+		}).orElse(false);
+	}
+
 }

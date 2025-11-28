@@ -23,6 +23,13 @@ import java.util.List;
 public class ReservationController {
 
 	private final ReservationService reservationService;
+	
+	@GetMapping("/slots/{roomId}")
+	public ResponseEntity<List<LocalDateTime>> getAvailableSlots(@PathVariable Long roomId,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		List<LocalDateTime> availableSlots = reservationService.getAvailableSlots(roomId, date);
+		return ResponseEntity.ok(availableSlots);
+	}
 
 	@PostMapping
 	@PreAuthorize("isAuthenticated()")
@@ -32,18 +39,18 @@ public class ReservationController {
 		ReservationResponse response = reservationService.createReservation(request, currentUserId);
 		return ResponseEntity.created(URI.create("/api/reservations/" + response.getId())).body(response);
 	}
+	
+	@GetMapping("/user/{userId}")
+	@PreAuthorize("hasRole('ADMIN') or #userId == principal.user.id")
+	public ResponseEntity<List<ReservationResponse>> getReservationsByUser(@PathVariable Long userId) {
+		List<ReservationResponse> response = reservationService.getReservationsByUser(userId);
+		return ResponseEntity.ok(response);
+	}
 
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReservationResponse> getReservationById(@PathVariable Long id) {
 		ReservationResponse response = reservationService.getReservationById(id);
-		return ResponseEntity.ok(response);
-	}
-
-	@GetMapping("/user/{userId}")
-	@PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.id")
-	public ResponseEntity<List<ReservationResponse>> getReservationsByUser(@PathVariable Long userId) {
-		List<ReservationResponse> response = reservationService.getReservationsByUser(userId);
 		return ResponseEntity.ok(response);
 	}
 
@@ -58,18 +65,11 @@ public class ReservationController {
 	}
 
 	@DeleteMapping("/{id}")
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ADMIN') or @reservationServiceImpl.isOwner(#id, principal.user.id)")
 	public ResponseEntity<Void> cancelReservation(@PathVariable Long id, Authentication authentication) {
-		Long currentUserId = Long.valueOf(authentication.getName());
-		reservationService.cancelReservation(id, currentUserId);
-		return ResponseEntity.noContent().build();
-	}
-
-	@GetMapping("/slots/{roomId}")
-	public ResponseEntity<List<LocalDateTime>> getAvailableSlots(@PathVariable Long roomId,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-		List<LocalDateTime> availableSlots = reservationService.getAvailableSlots(roomId, date);
-		return ResponseEntity.ok(availableSlots);
+	    Long currentUserId = Long.valueOf(authentication.getName());
+	    reservationService.cancelReservation(id, currentUserId);
+	    return ResponseEntity.noContent().build();
 	}
 
 }

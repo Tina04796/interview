@@ -20,5 +20,7 @@ public interface ReservationService {
 	void cancelReservation(Long reservationId, Long currentUserId);
 
 	List<LocalDateTime> getAvailableSlots(Long roomId, LocalDate date);
+	
+	boolean isOwner(Long reservationId, Long userId);
 
 }
