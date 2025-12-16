@@ -67,12 +67,20 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- JDBC Driver -->
+		<!-- H2  -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- JDBC Driver
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		-->
 		
 		<!-- Apache Commons CSV -->
 		<dependency>
@@ -118,20 +126,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- MapStruct 
+		<!-- MapStruct processor -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
+			<artifactId>mapstruct-processor</artifactId>
 			<version>1.5.5.Final</version>
-		</dependency> 
-		-->
-		
-<dependency>
-    <groupId>org.mapstruct</groupId>
-    <artifactId>mapstruct-processor</artifactId>
-    <version>1.5.5.Final</version>
-    <scope>provided</scope>
-</dependency>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

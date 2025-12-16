@@ -16,7 +16,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:8081")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -35,7 +34,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN') or #id == principal.user.id")
+	@PreAuthorize("hasRole('ADMIN') or #userId == principal.user.id")
 	public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
 		UserResponse user = userService.getUserById(id);
 		return ResponseEntity.ok(user);

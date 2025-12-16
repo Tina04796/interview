@@ -18,6 +18,8 @@
 
 - 測試: Postman
 
+- 部屬: CLI
+
 
 
 〈架構〉
@@ -50,58 +52,70 @@
 
 〈測試〉
 
-*所有 API 請求為 8081/interview/api*
-
 - 使用者與認證
 
-	註冊: (POST) /users/register
-	(創建新的 USER 帳戶)
+	註冊: (POST) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/users/register
+		{
+		    "username": "2",
+		    "password": "123",
+		    "email": "2@gmail.com"
+		} 
 
-	登入: (POST) /users/login
-	(成功時回傳 Token)
 
-	查詢自己: (GET) /users/{id}
-	(測試能否透過 JWT 獲取自己的資料)
+	登入: (POST) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/users/login
+	(回傳 Token)
+		{
+		    "usernameOrEmail": "2",
+		    "password": "123"
+		} 
 
-	查詢所有 Rooms: (GET) /rooms
-	(測試 JWT 是否有效，應返回 200 OK)
 
-	Headers 格式: Authorization > Bearer Token > 右方輸入登入後的 Token
+	刪除: (DEL) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/users/2
 
 - 空間查詢與管理
 
-	查詢所有空間: (GET) /rooms
+	創建新空間: (POST) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/rooms
+	{
+	    "name":"Room A",
+	    "location":"1st Floor",
+	    "capacity":10
+	}
 
-	查詢單一空間: (GET) /rooms/{id}
+	查詢所有空間: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/rooms
+	(測試 JWT 是否有效，應返回 200 OK)
 
-	創建新空間: (POST) /rooms
-	(測試 403 Forbidden)
+	查詢單一空間: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/rooms/1
 
-	更新空間資料: (PUT) /rooms/{id}
+	更新空間資料: (PUT) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/rooms/1
+	{
+	    "name":"Room A",
+	    "location":"2nd Floor",
+	    "capacity":20
+	}
 　　　　
-	刪除空間: (DELETE) /rooms/{id}
+	刪除空間: (DELETE) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/rooms/1
 
 - 預約
 
-	查詢某房間在某天的可用時段: (GET) /reservations/slots/{roomId}
-	(需帶 date ex: http://localhost:8081/interview/api/reservations/slots/1?date=2026-03-15)
+	查詢某房間在某天的可用時段: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations/slots/1?date=2026-03-15
+	(不用登入)
 
-	建立預約: (POST) /reservations
-	(Body 需含 roomId 和時段列表 ex: 	{
-					"roomId": 1,
-					"selectedSlotTimes": [
-					"2026-03-15T10:00:00",
-					"2026-03-15T10:30:00",
-					"2026-03-15T11:00:00"
- 					 ]
-					})
+	建立預約: (POST) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations
+		{
+		"roomId": 1,
+		"selectedSlotTimes": [
+		"2026-03-15T10:00:00",
+		"2026-03-15T10:30:00",
+		"2026-03-15T11:00:00"
+ 		 ]
+		})
 
-	查詢自己的預約: (GET) /reservations/user/{userId}
+	用使用者id查詢該使用者的預約: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations/user/2
 	(限自己或 ADMIN)
 
-　	取消預約: (DELETE) /reservations/{id}
+	用預約id查詢預約的內容: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations/2
+
+　	用預約id取消預約: (DELETE) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations/2
 	(服務層會檢查是不是自己的預約)
 
-	查詢空間在日期範圍內的預約: (GET) /reservations/room/{roomId}
-	(需帶 startDate 和 endDate ex: http://localhost:8081/interview/api/reservations/room/1?startDate=2026-03-15&endDate=2026-03-15)
-
+	用空間id查詢該空間在日期範圍內的預約: (GET) https://reservation-api-svc-675340599080.asia-east1.run.app/interview/api/reservations/room/1?startDate=2026-03-15&endDate=2026-03-15
