@@ -6,7 +6,7 @@
 
 〈技術棧〉
 
-- 框架: Spring Boot 3
+- 框架: Spring Boot
 
 - 安全: Spring Security, JSON Web Token (JWT)
 
@@ -18,7 +18,7 @@
 
 - 測試: Postman
 
-- 部屬: CLI
+- 雲端佈署: CLI
 
 
 
@@ -28,7 +28,7 @@
 
 	三層架構分離 (Controller / Service / Repository)，確保可讀性與可維護性
 
-	數據傳輸物件 (DTO): 分離 Contract 與 Entity，用於 JSR 380 驗證，確保敏感資料不外洩
+	數據傳輸物件 (DTO): 分離 Contract 與 Entity，讓資料不外洩
 
 - 認證與安全
 
