@@ -1,18 +1,15 @@
 package com.example.controller;
 
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.dto.RoomRequest;
-import com.example.dto.RoomResponse;
+import com.example.dto.*;
 import com.example.service.RoomService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -33,18 +30,24 @@ public class RoomController {
 		return ResponseEntity.ok(result);
 	}
 
-	@PostMapping
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<RoomResponse> createRoom(@Valid @RequestBody RoomRequest roomRequest) {
-		RoomResponse saved = roomService.createRoom(roomRequest);
-		return ResponseEntity.created(URI.create("/api/rooms/" + saved.getId())).body(saved);
+	public ResponseEntity<RoomResponse> createRoom(
+	        @RequestPart("room") @Valid RoomRequest roomRequest,
+	        @RequestPart(value = "files", required = false) MultipartFile[] files) {
+	    RoomResponse saved = roomService.createRoom(roomRequest, files);
+	    return ResponseEntity.created(URI.create("/api/rooms/" + saved.getId())).body(saved);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<RoomResponse> updateRoom(@PathVariable Long id, @Valid @RequestBody RoomRequest roomRequest) {
-		RoomResponse updated = roomService.updateRoom(id, roomRequest);
-		return ResponseEntity.ok(updated);
+	public ResponseEntity<RoomResponse> updateRoom(
+	        @PathVariable Long id,
+	        @RequestPart("room") @Valid RoomRequest roomRequest,
+	        @RequestPart(value = "newFiles", required = false) MultipartFile[] newFiles,
+	        @RequestParam(value = "removeImageIds", required = false) List<Long> removeImageIds) {
+	    RoomResponse updated = roomService.updateRoom(id, roomRequest, newFiles, removeImageIds);
+	    return ResponseEntity.ok(updated);
 	}
 
 	@DeleteMapping("/{id}")

@@ -1,6 +1,8 @@
 package com.example.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,5 +25,14 @@ public class Room implements Serializable {
 	private String name;
 	private String location;
 	private Integer capacity;
+	
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<RoomImage> images = new ArrayList<>();
+
+    public void addImage(RoomImage image) {
+        images.add(image);
+        image.setRoom(this);
+    }
 
 }

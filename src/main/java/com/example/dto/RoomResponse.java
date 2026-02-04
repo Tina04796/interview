@@ -1,5 +1,7 @@
 package com.example.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +17,15 @@ public class RoomResponse {
 	private String name;
 	private String location;
 	private Integer capacity;
-
+    private List<ImageInfo> images;
+    
+    @Data 
+    @Builder
+    @NoArgsConstructor 
+    @AllArgsConstructor
+    public static class ImageInfo {
+        private Long id;
+        private String url;
+    }
+    
 }
