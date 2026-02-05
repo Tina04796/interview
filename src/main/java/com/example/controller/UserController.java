@@ -34,11 +34,11 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
-		UserResponse user = userService.getUserById(id);
-		return ResponseEntity.ok(user);
-	}
+	@PreAuthorize("hasRole('ADMIN') or #id == principal.user.id")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+        UserResponse user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
 
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")

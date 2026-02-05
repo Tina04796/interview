@@ -20,6 +20,10 @@ public class CustomUserDetails implements UserDetails, Serializable {
 	public User getUser() {
 		return user;
 	}
+	
+	public Long getId() {
+	    return user.getId();
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
